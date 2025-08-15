@@ -19,8 +19,14 @@ clean-targets:
 
 require-dbt-version: [">=1.0.0", "<2.0.0"]
 
+on-run-end: "{{ dbt_artifacts.upload_results(results) }}"
+
 models:
   jaffle_shop:
-      materialized: table
-      staging:
-        materialized: view
+    materialized: table
+    staging:
+      materialized: view
+
+  #  keep artifacts in their own schema
+  dbt_artifacts:
+    +schema: dbt_artifacts
